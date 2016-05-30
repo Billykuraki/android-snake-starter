@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical" >
+
+    <!-- top head layout -->
+
+    <LinearLayout        
+        android:id="@+id/head_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/head"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/start_head" 
+            style="@style/start_head"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"  
+        android:text="@string/start" 
+        style="@style/start_button"/>
+
+    <Button
+        android:id="@+id/btn_rank"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_start"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="@string/rank"
+        style="@style/start_button" />
+
+    <Button
+        android:id="@+id/btn_exit"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_rank"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:text="@string/leave"
+        style="@style/start_button" />
+    <!-- 進度處理BAR -->
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone" />
+
+    <!-- 進度顯示TEXT -->
+
+    <TextView
+        android:id="@+id/progressText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:visibility="gone" 
+        style="@style/loading_text"/>
+
+</RelativeLayout>

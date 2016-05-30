@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/com.billy.snakeclassic"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+      
+
+    <!-- uper Linear layout -->
+    <LinearLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp" >
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="24sp" />
+    </LinearLayout>
+    
+    
+     <!-- snake view -->
+    <com.billy.ui.GameBoardView
+        android:id="@+id/snake"
+        android:layout_below="@id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:tileSize="24dp" />
+    
+    
+	<!-- state text view -->
+     <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:visibility="visible" 
+        style="@style/instruction"/>
+    
+    
+</RelativeLayout>
+
+
+   

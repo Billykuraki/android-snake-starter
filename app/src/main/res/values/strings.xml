@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Snake</string>
+    
+    <string name="start_head">ANGRY\nANDROID</string>
+    <string name="start">開始遊戲</string>
+    <string name="rank">排行榜</string>
+    <string name="leave">離開遊戲</string>
+    
+    <string name="mode_ready">輕碰開始遊戲</string>
+    <string name="mode_pause">遊戲暫停</string>
+    <string name="mode_lose">你輸了~^___^</string>
+    
+
+</resources>
