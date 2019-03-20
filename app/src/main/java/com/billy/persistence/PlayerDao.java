@@ -2,6 +2,7 @@ package com.billy.persistence;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -14,6 +15,6 @@ public interface PlayerDao {
     void insertPlayer(Player player);
 
     @Query("SELECT * FROM player ORDER BY score DESC")
-    List<Player> findAllPlayers();
+    LiveData<List<Player>> findAllPlayers();
 
 }

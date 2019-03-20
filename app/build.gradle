@@ -20,12 +20,17 @@ android {
 
 dependencies {
     def room_version = "2.1.0-alpha04"
+    def lifecycle_version = "2.0.0"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version" // For Kotlin use kapt instead of annotationProcessor
 
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
 
+
+    // Lifecycle components
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
 
     implementation "androidx.recyclerview:recyclerview:1.1.0-alpha03"
