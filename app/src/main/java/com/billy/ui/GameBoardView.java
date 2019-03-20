@@ -43,7 +43,6 @@ public class GameBoardView extends TileView {
     private static final int RED_STAR = 1;
     private static final int YELLOW_STAR = 2;
     private static final int GREEN_STAR = 3;
-
     private static final int ANDROID = 4;
     private static final int APPLE = 5;
     private static final int ANDROID_HEAD = 6;
@@ -82,28 +81,28 @@ public class GameBoardView extends TileView {
 
     public GameBoardView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initSnakeView();
+        initDrawableResources();
         initSoundResource(context);
     }
 
     public GameBoardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initSnakeView();
+        initDrawableResources();
         initSoundResource(context);
     }
 
-    private void initSnakeView() {
+    private void initDrawableResources() {
         setFocusable(true);
-        Resources r = getContext().getResources();
-        resetTile(8);
+        resetDrawableArray(8);
 
-        loadTile(RED_STAR, r.getDrawable(R.drawable.redstar));
-        loadTile(YELLOW_STAR, r.getDrawable(R.drawable.yellowstar));
-        loadTile(GREEN_STAR, r.getDrawable(R.drawable.greenstar));
-        loadTile(ANDROID_HEAD, r.getDrawable(R.drawable.androidhead));
-        loadTile(ANDROID, r.getDrawable(R.drawable.android));
-        loadTile(APPLE, r.getDrawable(R.drawable.apple));
-        loadTile(BAD_APPLE, r.getDrawable(R.drawable.badapple));
+        Context c = getContext();
+        loadDrawable(RED_STAR, c.getDrawable(R.drawable.redstar));
+        loadDrawable(YELLOW_STAR, c.getDrawable(R.drawable.yellowstar));
+        loadDrawable(GREEN_STAR, c.getDrawable(R.drawable.greenstar));
+        loadDrawable(ANDROID_HEAD, c.getDrawable(R.drawable.androidhead));
+        loadDrawable(ANDROID, c.getDrawable(R.drawable.android));
+        loadDrawable(APPLE, c.getDrawable(R.drawable.apple));
+        loadDrawable(BAD_APPLE, c.getDrawable(R.drawable.badapple));
     }
 
     private void initSoundResource(Context context) {
@@ -200,10 +199,10 @@ public class GameBoardView extends TileView {
     }
 
     public void setMode(int newMode) {
-        int oldMode = mMode;
+        int prevMode = mMode;
         mMode = newMode;
 
-        if (newMode == RUNNING && oldMode != RUNNING) {
+        if (newMode == RUNNING && prevMode != RUNNING) {
             mStatusText.setVisibility(View.INVISIBLE);
             update();
             enableBackgroundSound(true);
@@ -211,18 +210,15 @@ public class GameBoardView extends TileView {
         }
 
         if (newMode == PAUSE) {
-
             setTextAndVisible(R.string.mode_pause);
             enableBackgroundSound(false);
         }
 
         if (newMode == READY) {
-
             setTextAndVisible(R.string.mode_ready);
         }
 
         if (newMode == LOSE) {
-
             setTextAndVisible(R.string.mode_lose);
             enableBackgroundSound(false);
 
@@ -240,7 +236,7 @@ public class GameBoardView extends TileView {
     }
 
     private void showRankActivity(){
-        Intent intent = new Intent(getContext(), ScoreRankingActivity.class);
+        Intent intent = new Intent(getContext(), RankingActivity.class);
         intent.putExtra("player", mPlayerText.getText());
         intent.putExtra("score", mScoreText.getText());
         getContext().startActivity(intent);

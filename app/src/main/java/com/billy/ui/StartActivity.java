@@ -55,11 +55,10 @@ public class StartActivity extends Activity {
     }
 
     private void initView() {
-        setContentView(R.layout.start_layout);
+        setContentView(R.layout.layout_start_activity);
         mStartButton = findViewById(R.id.btn_start);
         mRankButton = findViewById(R.id.btn_rank);
         mExitButton = findViewById(R.id.btn_exit);
-
         mProgress = findViewById(R.id.progress_bar);
         mProgressText = findViewById(R.id.progressText);
     }
@@ -77,7 +76,7 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // go to rank activity
-                Intent intent = new Intent(StartActivity.this, ScoreRankingActivity.class);
+                Intent intent = new Intent(StartActivity.this, RankingActivity.class);
                 startActivity(intent);
             }
         });

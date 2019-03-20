@@ -26,8 +26,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle icicle) {
         super.onCreate(icicle);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        initView();
-        setListener();
+        initGameBoard();
         // first time start
         if (icicle == null) {
             mGameBoardView.setMode(GameBoardView.READY);
@@ -42,9 +41,14 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
+    private void initGameBoard() {
+        setContentView(R.layout.layout_main_activity);
+        mGameBoardView = findViewById(R.id.snake);
+        mGameBoardView.setDependentViews(
+                (TextView) findViewById(R.id.text),
+                (TextView) findViewById(R.id.user),
+                (TextView) findViewById(R.id.score));
+        mGameBoardView.setOnTouchListener(new SwipeDetector(mGameBoardView));
     }
 
     @Override
@@ -52,22 +56,9 @@ public class MainActivity extends Activity {
         icicle.putBundle(KEY, mGameBoardView.saveState());
     }
 
-    private void initView() {
-        setContentView(R.layout.snake_layout);
-        mGameBoardView = findViewById(R.id.snake);
-        mGameBoardView.setDependentViews(
-                (TextView) findViewById(R.id.text),
-                (TextView) findViewById(R.id.user),
-                (TextView) findViewById(R.id.score));
-    }
-
-    private void setListener() {
-        mGameBoardView.setOnTouchListener(new SwipeDetector(mGameBoardView));
-    }
-    
     @Override
     public void onBackPressed() {
-        // do nothing
+        // do nothing, in case user back to main activity
     }
 
     @Override

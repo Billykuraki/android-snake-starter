@@ -2,7 +2,6 @@
 package com.billy.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -27,8 +26,8 @@ public class TileView extends View {
     //Create a new paint with default settings.
     private final Paint mPaint = new Paint();
 
-    // mTileArray sDrawable
-    private Bitmap[] mTileArray;
+    // mDrawables sDrawable
+    private Bitmap[] mDrawables;
 
     // mTileGrid tile
     private int[][] mTileGrid;
@@ -36,13 +35,13 @@ public class TileView extends View {
     public TileView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initTileSize(context, attrs);
-        setBackgroundDrawable(context);
+        setBackground(context.getDrawable(R.drawable.game_background));
     }
 
     public TileView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initTileSize(context, attrs);
-        setBackgroundDrawable(context);
+        setBackground(context.getDrawable(R.drawable.game_background));
     }
 
     private void initTileSize(Context context, AttributeSet attrs) {
@@ -66,22 +65,22 @@ public class TileView extends View {
         }
     }
 
-    public void loadTile(int key, Drawable tile) {
+    public void loadDrawable(int key, Drawable d) {
         //ARGB_8888 each pixel store in 4 bytes
         Bitmap bitmap = Bitmap.createBitmap(mTileSize, mTileSize, Config.ARGB_8888);
         //Construct a canvas with the specified bitmap to draw into.
         Canvas canvas = new Canvas(bitmap);
-        tile.setBounds(0, 0, mTileSize, mTileSize);
-        tile.draw(canvas);
-        mTileArray[key] = bitmap;
+        d.setBounds(0, 0, mTileSize, mTileSize);
+        d.draw(canvas);
+        mDrawables[key] = bitmap;
     }
 
     public void setTiles(int tileIndex, int x, int y) {
         mTileGrid[x][y] = tileIndex;
     }
 
-    public void resetTile(int tileCount) {
-        mTileArray = new Bitmap[tileCount];
+    public void resetDrawableArray(int tileCount) {
+        mDrawables = new Bitmap[tileCount];
     }
     //Called when the view should render its content.
     @Override
@@ -91,16 +90,11 @@ public class TileView extends View {
             for (int y = 0; y < mYTileCount; y++) {
                 if (mTileGrid[x][y] > 0) {
                     //Draw the specified bitmap, with its top/left corner at (x,y), using the specified paint, transformed by the current matrix.
-                    canvas.drawBitmap(mTileArray[mTileGrid[x][y]], mXOffset + x * mTileSize,
+                    canvas.drawBitmap(mDrawables[mTileGrid[x][y]], mXOffset + x * mTileSize,
                             mYOffset + y * mTileSize, mPaint);
                 }
             }
         }
-    }
-
-    protected void setBackgroundDrawable(Context context) {
-        Resources r = context.getResources();
-        setBackground(r.getDrawable(R.drawable.game_background));
     }
 
     @Override

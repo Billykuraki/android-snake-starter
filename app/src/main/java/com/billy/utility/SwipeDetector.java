@@ -45,28 +45,22 @@ public class SwipeDetector implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event) {
         if (mGameBoardView.getGameState() == GameBoardView.RUNNING) {
             switch (event.getAction()) {
-            // �����U
                 case MotionEvent.ACTION_DOWN: {
-                    // ��o�_�l�y���I
                     downX = event.getX();
                     downY = event.getY();
                     return true; // consume ACTION DOWN event
                 }  //-------- ACTION DOWN event end 
 
-                // ������}
                 case MotionEvent.ACTION_UP: {
                     // v.performClick();
-
-                    // ��o���}�y���I
                     upX = event.getX();
                     upY = event.getY();
 
-                    // delta = �����U - ������}
                     float deltaX = downX - upX;
                     float deltaY = downY - upY;
 
                     /*
-                     * X��delta�j��Y��delta   �}�l�P�_ swipe horizontal
+                     * swipe horizontal
                      */
                     if (Math.abs(deltaX) > Math.abs(deltaY)) {
                         if (Math.abs(deltaX) > MIN_DISTANCE) {
@@ -89,7 +83,7 @@ public class SwipeDetector implements View.OnTouchListener {
                     }
 
                     /*
-                     * Y��delta�j��X��delta   �}�l�P�_ swipe vertical
+                     * swipe vertical
                      */
                     else {
                         if (Math.abs(deltaY) > MIN_DISTANCE) {
