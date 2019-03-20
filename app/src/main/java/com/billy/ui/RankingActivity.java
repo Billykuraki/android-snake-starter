@@ -4,9 +4,9 @@ package com.billy.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +14,20 @@ import android.widget.TextView;
 
 import com.billy.persistence.Player;
 import com.billy.persistence.PlayerDao;
-import com.billy.persistence.PlayersDatabase;
+import com.billy.persistence.PlayerDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RankingActivity extends Activity {
 
     PlayerDao mDao;
     RecyclerView mRankList;
+    RankAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +37,33 @@ public class RankingActivity extends Activity {
 
         mRankList = findViewById(R.id.rank_list);
         mRankList.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new RankAdapter();
+        mRankList.setAdapter(mAdapter);
+        mDao = PlayerDatabase.getInstance(this).playerDao();
+        mAdapter = new RankAdapter();
+
 
         if (getIntent().getExtras() != null) {
             Bundle bundle = getIntent().getExtras();
-            String player = (String) bundle.get("player");
-            String score = String.valueOf(bundle.get("score"));
-
-            mDao = PlayersDatabase.getInstance(this).playerDao();
+            String player = bundle.getString("player");
+            String score = bundle.getString("score");
+            Log.d("QQQ", player + " " + score + "cool!");
             mDao.insertPlayer(new Player(player, score));
         }
-        mRankList.setAdapter(new RankAdapter(mDao.findAllPlayers()));
+        new QueryTask().execute();
+    }
+
+    private class QueryTask extends AsyncTask<Void, Void, List<Player>> {
+
+        @Override
+        protected List<Player> doInBackground(Void... voids) {
+           return mDao.findAllPlayers();
+        }
+
+        @Override
+        protected void onPostExecute(List<Player> data) {
+            mAdapter.setData(data);
+        }
     }
 
     private class RankAdapter extends RecyclerView.Adapter<RankAdapter.MyViewHolder> {
@@ -56,13 +77,18 @@ public class RankingActivity extends Activity {
                 this.playerText = v.findViewById(R.id.player_text);
                 this.scoreText = v.findViewById(R.id.score_text);
             }
-
         }
 
-        private List<Player> mData;
+        private List<Player> mData = new ArrayList<>();
 
-        RankAdapter (List<Player> data) {
-            mData = data;
+
+        public void setData(List<Player> data) {
+            Log.d("TEST", "set Data !!!!!!!" + data.isEmpty());
+            for (Player p: data) {
+                Log.d("TEST", p.getName() + " " + p.getScore());
+            }
+            mData.addAll(data);
+            notifyDataSetChanged();
         }
 
         @NonNull

@@ -2,19 +2,21 @@ package com.billy.persistence;
 
 import android.content.Context;
 
+import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-public abstract class PlayersDatabase extends RoomDatabase {
+@Database(entities = {Player.class}, version = 1, exportSchema = false)
+public abstract class PlayerDatabase extends RoomDatabase {
 
-    private static volatile PlayersDatabase INSTANCE;
+    private static volatile PlayerDatabase INSTANCE;
     private static final String DB = "player.db";
 
-    public static PlayersDatabase getInstance(Context context) {
+    public static PlayerDatabase getInstance(Context context) {
         if (INSTANCE == null) {
-            synchronized (PlayersDatabase.class) {
+            synchronized (PlayerDatabase.class) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        PlayersDatabase.class, DB).build();
+                        PlayerDatabase.class, DB).build();
             }
         }
         return INSTANCE;

@@ -22,6 +22,14 @@ public class Player {
         this.score = score;
     }
 
+    public void setPlayerId(int id) {
+        playerId = id;
+    }
+
+    public int getPlayerId() {
+        return playerId;
+    }
+
     public String getName(){
         return name;
     }

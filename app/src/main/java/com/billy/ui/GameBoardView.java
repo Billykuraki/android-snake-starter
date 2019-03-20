@@ -258,7 +258,6 @@ public class GameBoardView extends TileView {
             long now = System.currentTimeMillis();
             if (now - mLastMove > mMoveDelay) {
                 clearTiles();
-                updateSnake();
                 updateWalls();
                 updateApple();
                 mLastMove = now;
