@@ -1,1 +1,1 @@
-# android-snake-starter
+# android snake game for fun!
