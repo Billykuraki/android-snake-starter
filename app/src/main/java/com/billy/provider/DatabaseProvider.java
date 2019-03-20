@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 /**
- * Created by Billy_Hsieh on 2016/5/27.
+ * Created by Billy Hsieh on 2016/5/27.
  */
 public class DatabaseProvider extends ContentProvider {
 

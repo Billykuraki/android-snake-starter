@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
-import com.billy.utilily.SwipeDetector;
+import com.billy.utility.SwipeDetector;
 
 public class MainActivity extends Activity {
 
@@ -28,10 +28,11 @@ public class MainActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
         setListener();
-        // 初次遊戲
+        // first time start
         if (icicle == null) {
             mGameBoardView.setMode(GameBoardView.READY);
         } else {
+            // restore game state
             Bundle bundle = icicle.getBundle(KEY);
             if (bundle != null) {
                 mGameBoardView.restoreState(bundle);
@@ -39,13 +40,11 @@ public class MainActivity extends Activity {
                 mGameBoardView.setMode(GameBoardView.PAUSE);
             }
         }
-        // 設定完成 SnakeView 等待接收 moveSnake
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        // mSnakeView.setMode(SnakeView.PAUSE);
     }
 
     @Override
@@ -55,7 +54,7 @@ public class MainActivity extends Activity {
 
     private void initView() {
         setContentView(R.layout.snake_layout);
-        mGameBoardView = (GameBoardView) findViewById(R.id.snake);
+        mGameBoardView = findViewById(R.id.snake);
         mGameBoardView.setDependentViews(
                 (TextView) findViewById(R.id.text),
                 (TextView) findViewById(R.id.user),

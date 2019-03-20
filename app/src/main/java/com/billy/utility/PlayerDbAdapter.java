@@ -1,5 +1,5 @@
 
-package com.billy.utilily;
+package com.billy.utility;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -3,11 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-    
-    
-    
-    <!-- record layout用於塞進ranklist 的 listView中 -->
- 
+
     <TextView 
         android:id="@+id/player_text"
         android:textSize="24sp"

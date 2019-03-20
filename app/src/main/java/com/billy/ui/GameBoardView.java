@@ -17,8 +17,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.billy.utilily.SoundEffect;
-import com.billy.utilily.SoundService;
+import com.billy.utility.SoundEffect;
+import com.billy.utility.SoundService;
 
 public class GameBoardView extends TileView {
 
@@ -130,35 +130,35 @@ public class GameBoardView extends TileView {
         mScore = 0;
 
         Bundle bundle = ((Activity) getContext()).getIntent().getExtras();
-        String username = (String) bundle.get("username");
+        String username = bundle.getString("username");
 
-        mPlayerText.setText(username);
+        mPlayerText.setText(username == null ? "player" : username);
         mScoreText.setText("" + mScore);
     }
 
     public void moveSnake(int direction) {
         if (direction == MainActivity.MOVE_UP) {
+            /*
+             * At the beginning of the game, or the end of a previous one,
+             * we should start a new game if UP key is clicked.
+             */
             if (mMode == READY) {
-                /*
-                 * At the beginning of the game, or the end of a previous one,
-                 * we should start a new game if UP key is clicked.
-                 */
                 initNewGame();
                 setMode(RUNNING);
                 update();
                 return;
             }
 
+            /*
+             * If the game is merely paused, we should just continue where
+             * we left off.
+             */
             if (mMode == PAUSE) {
-                /*
-                 * If the game is merely paused, we should just continue where
-                 * we left off.
-                 */
                 setMode(RUNNING);
                 update();
                 return;
             }
-            // �Y��V�O���U�h���L
+            // new start position.
             if (mDirection != SOUTH) {
                 mNextDirection = NORTH;
             }
@@ -166,28 +166,18 @@ public class GameBoardView extends TileView {
 
         }
 
-        if (direction == MainActivity.MOVE_DOWN) {
-            // �Y�D�ثe��V�O���W�h���L��������
-            if (mDirection != NORTH) {
-                mNextDirection = SOUTH;
-            }
+        if (direction == MainActivity.MOVE_DOWN && mDirection != NORTH) {
+            mNextDirection = SOUTH;
             return;
         }
 
-        if (direction == MainActivity.MOVE_LEFT) {
-            // �Y��V�O���k�h���L��������
-            if (mDirection != EAST) {
-                mNextDirection = WEST;
-            }
+        if (direction == MainActivity.MOVE_LEFT && mDirection != EAST) {
+            mNextDirection = WEST;
             return;
         }
 
-        if (direction == MainActivity.MOVE_RIGHT) {
-            // �Y��V�O�����h���L��������
-            if (mDirection != WEST) {
-                mNextDirection = EAST;
-            }
-            return;
+        if (direction == MainActivity.MOVE_RIGHT && mDirection != WEST) {
+            mNextDirection = EAST;
         }
     }
 
@@ -196,7 +186,7 @@ public class GameBoardView extends TileView {
         Context context = getContext();
         Intent intent = new Intent(context, SoundService.class);
         if (isEnable) {
-            Log.d(TAG, "start  service!!");
+            Log.d(TAG, "start service!!");
             context.startService(intent);
         } else {
             context.stopService(intent);
@@ -331,7 +321,7 @@ public class GameBoardView extends TileView {
                 break;
         }
 
-        if (isWallCollision(newHead)) {
+        if (isCollisionWithBorder(newHead)) {
             mSoundEffect.onLoseGame();
             setMode(LOSE);
             return;
@@ -355,7 +345,6 @@ public class GameBoardView extends TileView {
         if (isEatBadAppleAndRemove(newHead)) {
             mSoundEffect.onEatBadApple();
             addRandomApple(BAD_APPLE);
-            // ��h����
             if(!mSnakeTrails.isEmpty()){
                                          
                 mSnakeTrails.remove(mSnakeTrails.size() - 1);
@@ -372,39 +361,27 @@ public class GameBoardView extends TileView {
         refreshSnake();
     }
 
-    private boolean isWallCollision(Coordinate head) {
-        if (head.x < 1 || head.y < 1 || head.x > mXTileCount - 2 || head.y > mYTileCount - 2) {
-            return true;
-        }
-        return false;
+    private boolean isCollisionWithBorder(Coordinate head) {
+        return head.x < 1 || head.y < 1 || head.x > mXTileCount - 2 || head.y > mYTileCount - 2;
     }
 
     private void addRandomApple(int which) {
-        Coordinate newAppleCoord = null;
-        boolean found = false;
+        int newX = 1 + random.nextInt(mXTileCount - 2);
+        int newY = 1 + random.nextInt(mYTileCount - 2);
 
-        while (!found) {
-            int newX = 1 + random.nextInt(mXTileCount - 2);
-            int newY = 1 + random.nextInt(mYTileCount - 2);
-            newAppleCoord = new Coordinate(newX, newY);
-
-            if (isBodyCollision(newAppleCoord)) {
-                found = false;
-            } else {
-                found = true;
-            }
-
+        Coordinate applePos = new Coordinate(newX, newY);
+        // check if position already been occupied.
+        while (isBodyCollision(applePos)) {
+            applePos.x = 1 + random.nextInt(mXTileCount - 2);
+            applePos.y = 1 + random.nextInt(mYTileCount - 2);
         }
 
-        if (newAppleCoord == null) {
-            Log.e(TAG, "Somehow ended up with a null newCoord!");
-        }
         switch (which) {
             case APPLE:
-                mAppleList.add(newAppleCoord);
+                mAppleList.add(applePos);
                 break;
             case BAD_APPLE:
-                mBadAppleList.add(newAppleCoord);
+                mBadAppleList.add(applePos);
                 break;
         }
 
@@ -434,12 +411,12 @@ public class GameBoardView extends TileView {
 
     private List<Coordinate> coordinateArrayToList(int[] coordArray) {
 
-        List<Coordinate> coordArrayList = new ArrayList<>();
+        List<Coordinate> Coordinates = new ArrayList<>();
         for (int i = 0; i < coordArray.length; i += 2) {
             Coordinate coordinate = new Coordinate(coordArray[i], coordArray[i + 1]);
-            coordArrayList.add(coordinate);
+            Coordinates.add(coordinate);
         }
-        return coordArrayList;
+        return Coordinates;
     }
 
     private int[] coordinateListToArray(List<Coordinate> coordArray) {
@@ -495,15 +472,15 @@ public class GameBoardView extends TileView {
     }
 
     private class Coordinate {
-        public int x;
-        public int y;
+        int x;
+        int y;
 
-        public Coordinate(int x, int y) {
+        Coordinate(int x, int y) {
             this.x = x;
             this.y = y;
         }
 
-        public boolean equals(Coordinate other) {
+        boolean equals(Coordinate other) {
             return x == other.x && y == other.y;
         }
 

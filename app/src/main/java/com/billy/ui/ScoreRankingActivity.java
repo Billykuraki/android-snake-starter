@@ -8,7 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.SimpleCursorAdapter;
 
-import com.billy.utilily.PlayerDbAdapter;
+import com.billy.utility.PlayerDbAdapter;
 
 public class ScoreRankingActivity extends ListActivity {
 

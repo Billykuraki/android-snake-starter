@@ -49,7 +49,6 @@ public class TileView extends View {
         TypedArray a = null;
         try {
             a = context.obtainStyledAttributes(attrs, R.styleable.TileView);
-            // if no return default tile size=24
             mTileSize = a.getDimensionPixelSize(R.styleable.TileView_tileSize, 40);
         } finally {
             if (a != null) {
@@ -73,17 +72,16 @@ public class TileView extends View {
         //Construct a canvas with the specified bitmap to draw into.
         Canvas canvas = new Canvas(bitmap);
         tile.setBounds(0, 0, mTileSize, mTileSize);
-        //Drawable.draw 畫進此bitmap中
         tile.draw(canvas);
         mTileArray[key] = bitmap;
     }
 
-    public void setTiles(int tileindex, int x, int y) {
-        mTileGrid[x][y] = tileindex;
+    public void setTiles(int tileIndex, int x, int y) {
+        mTileGrid[x][y] = tileIndex;
     }
 
-    public void resetTile(int tilecount) {
-        mTileArray = new Bitmap[tilecount];
+    public void resetTile(int tileCount) {
+        mTileArray = new Bitmap[tileCount];
     }
     //Called when the view should render its content.
     @Override
@@ -102,12 +100,11 @@ public class TileView extends View {
 
     protected void setBackgroundDrawable(Context context) {
         Resources r = context.getResources();
-        setBackgroundDrawable(r.getDrawable(R.drawable.game_background));
+        setBackground(r.getDrawable(R.drawable.game_background));
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        // Math.floor ±Ë¥h¤p¼Æ ¨ú±oX Y Tile­Ó¼Æ
 
         Log.d(TAG, "onSizeChanged!!!!");
         Log.d(TAG, "width=" + w + ",height=" + h);

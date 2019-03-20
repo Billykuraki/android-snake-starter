@@ -33,7 +33,7 @@
         android:paddingRight="10dp" />
 
     
-    <!--  empy use -->
+    <!--  empty use -->
     <TextView
         android:id="@android:id/empty"
         style="@style/instruction"

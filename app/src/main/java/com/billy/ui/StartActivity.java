@@ -36,7 +36,7 @@ public class StartActivity extends Activity {
 
         @Override
         public void handleMessage(Message msg) {
-            mProgressText.setText("��J����");
+            mProgressText.setText("Game Loading");
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -56,12 +56,12 @@ public class StartActivity extends Activity {
 
     private void initView() {
         setContentView(R.layout.start_layout);
-        mStartButton = (Button) findViewById(R.id.btn_start);
-        mRankButton = (Button) findViewById(R.id.btn_rank);
-        mExitButton = (Button) findViewById(R.id.btn_exit);
+        mStartButton = findViewById(R.id.btn_start);
+        mRankButton = findViewById(R.id.btn_rank);
+        mExitButton = findViewById(R.id.btn_exit);
 
-        mProgress = (ProgressBar) findViewById(R.id.progress_bar);
-        mProgressText = (TextView) findViewById(R.id.progressText);
+        mProgress = findViewById(R.id.progress_bar);
+        mProgressText = findViewById(R.id.progressText);
     }
 
     private void initListener() {
@@ -95,16 +95,16 @@ public class StartActivity extends Activity {
 
     private void initDialogAndShow() {
         input = new EditText(this);
-        new AlertDialog.Builder(this).setTitle("�п�J�m�W")
+        new AlertDialog.Builder(this).setTitle(R.string.dialog_title)
                .setView(input)
-               .setPositiveButton("�T�{", new DialogInterface.OnClickListener() {
+               .setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         invisibleAllButton();
                         showProgress();
                     }
                })
-               .setNegativeButton("���", new DialogInterface.OnClickListener() {
+               .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // remove dialog
@@ -119,7 +119,7 @@ public class StartActivity extends Activity {
     public void onBackPressed() {
         long delayTime = 3000;
         if (mLastLeaveTime == 0) {
-            Toast.makeText(this, "�A���@����^���}", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_message_leave, Toast.LENGTH_SHORT).show();
             mLastLeaveTime = System.currentTimeMillis();
         } else {
             long currentTime = System.currentTimeMillis();
@@ -135,7 +135,7 @@ public class StartActivity extends Activity {
     private void showProgress() {
         mProgress.setVisibility(View.VISIBLE);
         mProgressText.setVisibility(View.VISIBLE);
-        mProgressText.setText("�C����J��");
+        mProgressText.setText(R.string.progress);
         mProgress.setMax(100);
         mProgress.setProgress(0);
 

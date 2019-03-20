@@ -1,5 +1,5 @@
 
-package com.billy.utilily;
+package com.billy.utility;
 
 import android.util.Log;
 import android.view.MotionEvent;
