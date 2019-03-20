@@ -1,10 +1,10 @@
 
 package com.billy.ui;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.billy.persistence.Player;
 import com.billy.persistence.PlayerViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -40,6 +39,8 @@ public class RankingActivity extends FragmentActivity {
         mPlayerViewModel.getAllPlayers().observeForever(new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> players) {
+                Log.d("TEST","data changed");
+                Log.d("TEST", players.size() + "");
                 mAdapter.setData(players);
             }
         });
@@ -57,7 +58,6 @@ public class RankingActivity extends FragmentActivity {
         }
     }
 
-
     private class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.MyViewHolder> {
 
         class MyViewHolder extends RecyclerView.ViewHolder {
@@ -71,17 +71,23 @@ public class RankingActivity extends FragmentActivity {
             }
         }
 
-        private List<Player> mData = new ArrayList<>();
+        private List<Player> mData;
+
+        public PlayerListAdapter() {
+
+        }
 
 
         public void setData(List<Player> data) {
-            mData.addAll(data);
+            Log.d("STSS", "setDATA");
+            mData = data;
             notifyDataSetChanged();
         }
 
         @NonNull
         @Override
         public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+            Log.d("TEST", "create view holder");
             TextView v = (TextView) LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.layout_rank_row, parent, false);
             return new MyViewHolder(v);
@@ -91,12 +97,14 @@ public class RankingActivity extends FragmentActivity {
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
             Player player = mData.get(position);
+            Log.d("TEST", player.getName() + "QQQQQQQQ");
             holder.playerText.setText(player.getName());
             holder.scoreText.setText(player.getScore());
         }
 
         @Override
         public int getItemCount() {
+            Log.d("tset",mData.size() + "");
             return mData.size();
         }
     }
